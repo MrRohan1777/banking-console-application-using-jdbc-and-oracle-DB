@@ -15,7 +15,7 @@ public class Atm {
 		while(true) {
 			
 			
-			System.out.println("Enter 1 for create account. \nEnter 2 for check balance. \nEnter 3 for withdraw. \nEnter 4 for deposite. \nEnter 5 for Exite");
+			System.out.println("Enter 1 for create account. \nEnter 2 for check balance. \nEnter 3 for withdraw. \nEnter 4 for deposite.\nEnter 5 for show details \nEnter 6 for Exite");
 			
 			int choice=sc.nextInt();
 		switch(choice) {
@@ -46,8 +46,15 @@ public class Atm {
 			
 			
 		case 5:
+			Atm at5=new Atm();
+			at5.showDetails();
+			
+			
+		case 6:
 			Atm at3=new Atm();
 			at3.exite();
+			
+		
 		}
 		}
 	}
@@ -179,6 +186,37 @@ public class Atm {
 			System.out.println(e);
 		}
 		
+		
+	}
+	
+	public void showDetails() {
+		System.out.println("Enter Accountnumber : ");
+		int accno=sc.nextInt();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","gatesmash","gatesmash");
+			
+			PreparedStatement ps=con.prepareStatement("select * from bank where accno=?");
+			ps.setInt(1, accno);
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				for(int i=1;i<=5;i++) {
+					System.out.println(rs.getString(i));
+				}
+							
+						}
+			System.out.println();
+			
+			
+			
+			con.close();
+			
+			
+			
+		}catch (Exception e) {	
+			System.out.println(e);
+		}
 		
 	}
 	
